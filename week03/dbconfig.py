@@ -2,7 +2,7 @@
 from configparser import ConfigParser
 
 
-def red_db_config(filename='config.ini', section='mysql'):
+def read_db_config(filename='config.ini', section='mysql'):
     """
     读取数据库配置文件
     :param filename: 配置文件名称
@@ -22,4 +22,4 @@ def red_db_config(filename='config.ini', section='mysql'):
 
 
 if __name__ == '__main__':
-    print(red_db_config())
+    print(read_db_config())

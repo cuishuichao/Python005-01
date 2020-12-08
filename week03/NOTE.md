@@ -88,7 +88,55 @@ LIMIT 5;                        # 7
     - 可重复读：同一事务在相同查询条件下两次查询得到结果一致
     - 可串行读：事务进行串行化，但是牺牲并发性能
     
-    
+### pymysql 操作数据库    
+- 读取 ini 配置文件
+````
+from configparser import ConfigParser
+
+
+def read_db_config(filename='config.ini', section='mysql'):
+    """
+    读取数据库配置文件
+    :param filename: 配置文件名称
+    :param section: 数据库配置部分
+    :return: 字典
+    """
+    # 创建解析器并读取ini配置文件
+    parser = ConfigParser()
+    parser.read(filename)
+
+    # 判断读取的部分是否存在
+    if parser.has_section(section):
+        items = parser.items(section)
+    else:
+        raise Exception('{0} not found in the {1} file'.format(section, filename))
+    return dict(items)
+````
+- pymysql 增删改查
+````
+# -*- coding: utf-8 -*-
+import pymysql
+
+from week03.dbconfig import read_db_config
+
+dbservier = read_db_config()
+db = pymysql.connect(**dbservier)
+
+try:
+    with db.cursor() as cursor:
+        # %s 是占位符固定的
+        sql = 'INSERT INTO book (id, name) VALUES (%s, %s)'
+        value = ((1002, "活着")
+                 (1005, "飘"))
+        cursor.executemany(sql, value)  # execute 插入单条
+        # cursor.fetchall()查询返回全部  # fetchone 查询返回单条
+    db.commit()
+except Exception as e:
+    print(f'insert error {e}')
+finally:
+    db.close()
+    print(cursor.rowcount)
+````
     
 
 
