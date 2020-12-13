@@ -9,6 +9,13 @@
 ````
 # 查看 linux 操作系统架构
 arch
+# 安装MySQL
+# 修改 yum 配置文件找到网络包的索引
+yum install mysql57-community-release-e17-10.noarch.rpm
+# 从网络中找到这些包安装
+yum install mysql-community-server
+# 移除安装包，防止自动更新
+yum remove mysql57-community-release-e17-10.noarch.rpm
 # 启动 MySQL
 systemctl start mysqld.service
 # 开机自动启动 MySQL
